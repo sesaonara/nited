@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ความรู้การนิเทศ - โรงเรียนนราศึกษาธิการ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { nara: { 50:'#f0f9ff',100:'#e0f2fe',500:'#0284c7',600:'#0369a1',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' }, gold: { 400:'#fbbf24',500:'#f59e0b',600:'#d97706' } },
+          fontFamily: { heading:['Prompt','sans-serif'], body:['Sarabun','sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family:'Sarabun',sans-serif; background:#f8fafc; color:#334155; }
+    h1,h2,h3,h4,h5,h6,.font-heading { font-family:'Prompt',sans-serif; }
+    @media print { .no-print{display:none!important;} body{background:white;color:black;} }
+  </style>
+</head>
+<body x-data="appData()" class="antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Top Bar -->
+  <div class="bg-gradient-to-r from-nara-900 via-nara-800 to-nara-900 text-white text-xs sm:text-sm py-2 px-4 text-center font-heading no-print border-b border-gold-500/30">
+    <div class="container mx-auto flex justify-between items-center">
+      <span><i class="fa-solid fa-graduation-cap text-gold-400 mr-2"></i>ขับเคลื่อนคุณภาพการศึกษาเชิงพื้นที่จังหวัดนราธิวาส</span>
+      <span class="hidden md:inline"><i class="fa-solid fa-calendar-check mr-1"></i> ประจำปีการศึกษา 2569 - 2570</span>
+    </div>
+  </div>
+
+  <!-- Navbar (same as site) -->
+  <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md border-b border-slate-200 no-print" x-data="{ openMobile: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-20">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-nara-800 to-nara-600 flex items-center justify-center text-white shadow-lg shadow-nara-800/30 border border-gold-400">
+            <i class="fa-solid fa-compass text-2xl"></i>
+          </div>
+          <div>
+            <a href="../index.html" class="font-heading font-bold text-lg sm:text-xl text-nara-900 leading-tight block">ระบบนิเทศการศึกษาจังหวัดนราธิวาส</a>
+            <span class="text-xs text-slate-500 font-body block">การนิเทศ ติดตาม และประเมินผลเชิงพื้นที่</span>
+          </div>
+        </div>
+        <div class="hidden lg:flex items-center space-x-1 text-sm font-heading font-medium">
+          <a href="#principles" class="px-3 py-2 rounded-lg text-slate-700 hover:text-nara-700 hover:bg-slate-100 transition">หลักการ/เป้าหมาย</a>
+          <a href="#framework" class="px-3 py-2 rounded-lg text-slate-700 hover:text-nara-700 hover:bg-slate-100 transition">กรอบ 6 ด้าน</a>
+          <a href="#levels" class="px-3 py-2 rounded-lg text-slate-700 hover:text-nara-700 hover:bg-slate-100 transition">3 ระดับ</a>
+          <a href="#process" class="px-3 py-2 rounded-lg text-slate-700 hover:text-nara-700 hover:bg-slate-100 transition">6 ระยะ</a>
+          <a href="#calendar" class="px-3 py-2 rounded-lg text-slate-700 hover:text-nara-700 hover:bg-slate-100 transition">ปฏิทิน 2569</a>
+          <a href="evaluation.html" class="px-4 py-2 rounded-xl bg-nara-800 text-white hover:bg-nara-900 shadow-md transition flex items-center space-x-2">
+            <i class="fa-solid fa-clipboard-check text-gold-400"></i><span>บันทึกการนิเทศ</span>
+          </a>
+        </div>
+        <div class="flex items-center lg:hidden">
+          <button @click="openMobile = !openMobile" class="text-slate-600 hover:text-nara-800 p-2">
+            <i class="fa-solid" :class="openMobile ? 'fa-xmark text-2xl' : 'fa-bars text-2xl'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div x-show="openMobile" x-collapse class="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-xl">
+      <a @click="openMobile=false" href="#principles" class="block px-3 py-2.5 rounded-md font-medium text-slate-700 hover:bg-nara-50">หลักการและเป้าหมาย</a>
+      <a @click="openMobile=false" href="#framework" class="block px-3 py-2.5 rounded-md font-medium text-slate-700 hover:bg-nara-50">กรอบการนิเทศ 6 ด้าน</a>
+      <a @click="openMobile=false" href="#levels" class="block px-3 py-2.5 rounded-md font-medium text-slate-700 hover:bg-nara-50">3 ระดับการสนับสนุน</a>
+      <a @click="openMobile=false" href="#process" class="block px-3 py-2.5 rounded-md font-medium text-slate-700 hover:bg-nara-50">6 ระยะกระบวนการ</a>
+      <a @click="openMobile=false" href="#calendar" class="block px-3 py-2.5 rounded-md font-medium text-slate-700 hover:bg-nara-50">ปฏิทินดำเนินงาน 2569</a>
+      <a @click="openMobile=false" href="evaluation.html" class="block px-3 py-2.5 rounded-md font-medium bg-nara-800 text-white text-center">
+        <i class="fa-solid fa-clipboard-check text-gold-400 mr-2"></i>บันทึกการนิเทศ
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero" class="relative bg-gradient-to-br from-nara-900 via-nara-800 to-slate-900 text-white py-16 lg:py-24 overflow-hidden border-b-4 border-gold-500">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center space-x-2 bg-gold-500/20 text-gold-400 border border-gold-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide">
+            <i class="fa-solid fa-star"></i><span>กลไกการขับเคลื่อนคุณภาพการศึกษาเชิงพื้นที่</span>
+          </div>
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold font-heading leading-tight tracking-tight text-white">
+            คู่มือและระบบนิเทศ ติดตาม<br class="hidden sm:inline">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-amber-300 to-yellow-200">และประเมินผลการศึกษา</span>
+          </h1>
+          <p class="text-base sm:text-xl text-slate-200 font-light max-w-3xl leading-relaxed">
+            จังหวัดนราธิวาส มุ่งเน้นการเชื่อมโยงการดำเนินงานอย่างเป็นระบบ ใช้ข้อมูลและหลักฐานเชิงประจักษ์ ยกระดับคุณภาพผู้เรียนและพัฒนาสถานศึกษาตามบริบทจริง
+          </p>
+          <div class="pt-4 flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a href="evaluation.html" class="px-6 py-3.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-heading font-bold shadow-lg shadow-gold-500/30 transition transform hover:-translate-y-0.5 flex items-center space-x-2">
+              <i class="fa-solid fa-pen-to-square"></i><span>ทำแบบประเมินออนไลน์</span>
+            </a>
+            <a href="#process" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-heading font-medium backdrop-blur-sm border border-white/20 transition flex items-center space-x-2">
+              <i class="fa-solid fa-route"></i><span>ศึกษาขั้นตอน 6 ระยะ</span>
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4">
+          <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 shadow-2xl space-y-4">
+            <h3 class="text-lg font-heading font-bold text-gold-400 border-b border-white/10 pb-2 flex items-center">
+              <i class="fa-solid fa-chart-line mr-2"></i> สรุปกรอบการดำเนินงาน
+            </h3>
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div class="p-3 bg-slate-800/50 rounded-xl border border-white/5">
+                <div class="text-2xl lg:text-3xl font-bold font-heading text-white">6</div>
+                <div class="text-xs text-slate-300">ประเด็นการนิเทศ</div>
+              </div>
+              <div class="p-3 bg-slate-800/50 rounded-xl border border-white/5">
+                <div class="text-2xl lg:text-3xl font-bold font-heading text-white">3</div>
+                <div class="text-xs text-slate-300">ระดับการสนับสนุน</div>
+              </div>
+              <div class="p-3 bg-slate-800/50 rounded-xl border border-white/5">
+                <div class="text-2xl lg:text-3xl font-bold font-heading text-white">6</div>
+                <div class="text-xs text-slate-300">ระยะกระบวนการ</div>
+              </div>
+              <div class="p-3 bg-slate-800/50 rounded-xl border border-white/5">
+                <div class="text-2xl lg:text-3xl font-bold font-heading text-gold-400">3</div>
+                <div class="text-xs text-slate-300">วงรอบต่อปี</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: หลักการ แนวคิด วัตถุประสงค์ -->
+  <section id="principles" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">FOUNDATION & OBJECTIVES</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">หลักการ แนวคิด และวัตถุประสงค์</h2>
+        <div class="w-20 h-1.5 bg-gold-500 mx-auto rounded-full"></div>
+      </div>
+      <div x-data="{ tab: 'concept' }" class="space-y-8">
+        <div class="flex justify-center border-b border-slate-200 flex-wrap">
+          <button @click="tab='concept'" :class="tab==='concept'?'border-nara-700 text-nara-800 font-bold border-b-2':'text-slate-500 hover:text-slate-700'" class="px-6 py-3 font-heading text-base sm:text-lg transition">
+            <i class="fa-solid fa-lightbulb mr-2 text-gold-500"></i>หลักการและแนวคิด
+          </button>
+          <button @click="tab='objectives'" :class="tab==='objectives'?'border-nara-700 text-nara-800 font-bold border-b-2':'text-slate-500 hover:text-slate-700'" class="px-6 py-3 font-heading text-base sm:text-lg transition">
+            <i class="fa-solid fa-bullseye mr-2 text-nara-600"></i>วัตถุประสงค์ 7 ประการ
+          </button>
+          <button @click="tab='targets'" :class="tab==='targets'?'border-nara-700 text-nara-800 font-bold border-b-2':'text-slate-500 hover:text-slate-700'" class="px-6 py-3 font-heading text-base sm:text-lg transition">
+            <i class="fa-solid fa-trophy mr-2 text-amber-500"></i>เป้าหมาย 3 ระดับ
+          </button>
+        </div>
+        <div x-show="tab==='concept'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">1</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">การขับเคลื่อนเชิงพื้นที่</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">เชื่อมโยงการดำเนินงานระดับจังหวัด หน่วยงาน พื้นที่ และสถานศึกษา ให้มีทิศทางสัมพันธ์กัน ภายใต้เป้าหมายคุณภาพผู้เรียนร่วมกัน</p>
+          </div>
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">2</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">หลักฐานเชิงประจักษ์</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">ใช้ข้อมูลสารสนเทศและหลักฐานเชิงประจักษ์ วิเคราะห์สภาพปัจจุบัน ปัญหา ความต้องการจำเป็น เพื่อการตัดสินใจและพัฒนาอย่างตรงจุด</p>
+          </div>
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">3</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">Coaching, Mentoring & PLC</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">หนุนเสริมความสามารถของโรงเรียนผ่านการชี้แนะ เป็นพี่เลี้ยง ให้คำปรึกษา และการสะท้อนผลผ่านชุมชนการเรียนรู้ทางวิชาชีพ</p>
+          </div>
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">4</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">บูรณาการภาคีเครือข่าย</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">ประสานความร่วมมือระหว่างต้นสังกัด สถาบันอุดมศึกษา อปท. ภาคเอกชน ประชาสังคม และเครือข่าย เพื่อระดมทรัพยากรและความเชี่ยวชาญ</p>
+          </div>
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">5</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">วงจรพัฒนาคุณภาพต่อเนื่อง</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">ดำเนินงานอย่างเป็นวงจรต่อเนื่อง ตั้งแต่การเก็บข้อมูล วางแผน นิเทศ Coaching ติดตาม ประเมิน และสังเคราะห์ผลเข้าสู่นโยบาย</p>
+          </div>
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-nara-100 text-nara-700 flex items-center justify-center font-bold">6</div>
+            <h3 class="font-heading font-semibold text-lg text-nara-900">ข้อเสนอเชิงนโยบาย กศจ.</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">ผลการนิเทศจะถูกสังเคราะห์เป็นสารสนเทศเชิงระบบ เพื่อเสนอต่อคณะกรรมการศึกษาธิการจังหวัดนราธิวาส ในการกำหนดมาตรการและทรัพยากร</p>
+          </div>
+        </div>
+        <div x-show="tab==='objectives'" class="bg-nara-50 p-8 rounded-2xl border border-nara-100">
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">1. เพื่อพัฒนาระบบนิเทศ ติดตาม และประเมินผลระดับจังหวัดให้มีทิศทางและเป้าหมายร่วมกัน</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">2. เพื่อใช้ข้อมูลและหลักฐานเชิงประจักษ์ในการวิเคราะห์คุณภาพและความต้องการจำเป็นของสถานศึกษา</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">3. เพื่อส่งเสริมและสนับสนุนสถานศึกษาในการพัฒนาหลักสูตร การเรียนรู้ การวัดผล การบริหาร และประกันคุณภาพ</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">4. เพื่อบูรณาการการทำงานระหว่างศึกษานิเทศก์ หน่วยงานทางการศึกษา สถานศึกษา สถาบันอุดมศึกษา และภาคีเครือข่าย</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">5. เพื่อลดความซ้ำซ้อนในการนิเทศ การเก็บข้อมูล และการรายงานของสถานศึกษา</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">6. เพื่อค้นหาและช่วยเหลือสถานศึกษาที่มีความต้องการจำเป็นเฉพาะด้านอย่างตรงจุด</span></li>
+            <li class="flex items-start space-x-3 bg-white p-4 rounded-xl shadow-sm md:col-span-2"><i class="fa-solid fa-circle-check text-nara-600 text-xl mt-0.5"></i><span class="text-slate-800 text-sm font-medium">7. เพื่อสังเคราะห์ข้อมูลจากพื้นที่เป็นข้อเสนอเชิงนโยบายสำหรับคณะกรรมการศึกษาธิการจังหวัดนราธิวาส (กศจ.)</span></li>
+          </ul>
+        </div>
+        <div x-show="tab==='targets'" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-b from-blue-50 to-white p-6 rounded-2xl border border-blue-200 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full"></div>
+            <div class="text-blue-600 font-heading font-bold text-sm tracking-wider uppercase mb-2">SCHOOL LEVEL</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900 mb-3">เป้าหมายระดับสถานศึกษา</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">ได้รับการนิเทศ ติดตาม และสนับสนุนตามบริบทความต้องการจำเป็น มีแผนพัฒนาที่ชัดเจน และสามารถแสดงหลักฐานการเปลี่ยนแปลงหลังได้รับการนิเทศ</p>
+          </div>
+          <div class="bg-gradient-to-b from-amber-50 to-white p-6 rounded-2xl border border-amber-200 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-amber-500/10 rounded-bl-full"></div>
+            <div class="text-amber-600 font-heading font-bold text-sm tracking-wider uppercase mb-2">AREA LEVEL</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900 mb-3">เป้าหมายระดับพื้นที่</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">เกิดเครือข่ายการนิเทศแบบบูรณาการที่สามารถใช้ข้อมูลร่วมกัน ประสานทรัพยากร ลดความซ้ำซ้อน และร่วมแก้ไขปัญหาคุณภาพการศึกษาในพื้นที่</p>
+          </div>
+          <div class="bg-gradient-to-b from-emerald-50 to-white p-6 rounded-2xl border border-emerald-200 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-full"></div>
+            <div class="text-emerald-600 font-heading font-bold text-sm tracking-wider uppercase mb-2">PROVINCIAL LEVEL</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900 mb-3">เป้าหมายระดับจังหวัด</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">มีระบบข้อมูลคุณภาพการศึกษาภาพรวมที่สะท้อนสภาพจริง ระบุประเด็นและกลุ่มเป้าหมายที่ต้องช่วยเหลือเพื่อใช้เป็นฐานนโยบายของ กศจ. นราธิวาส</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: กรอบ 6 ด้าน -->
+  <section id="framework" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">6 SUPERVISION DOMAINS</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">ประเด็นการนิเทศระดับจังหวัด (กรอบ 6 ด้าน)</h2>
+        <p class="text-slate-600 text-sm sm:text-base">
+          <span class="inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-semibold mr-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>หลักสำคัญ:</span>
+          กรอบ 6 ด้านเป็น "กรอบสแกนภาพรวม" ส่วนการลงพื้นที่จริงให้เลือก 1–3 ประเด็นสำคัญตามข้อมูลของแต่ละสถานศึกษา
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-user-graduate"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">1. คุณภาพและผลลัพธ์ผู้เรียน</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">ความรู้ ทักษะ สมรรถนะ คุณลักษณะ การอ่าน การเขียน การคิด ผลสัมฤทธิ์ ความก้าวหน้า และกลุ่มผู้เรียนที่ต้องได้รับการช่วยเหลือเฉพาะด้าน</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-book-bookmark"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">2. หลักสูตรสถานศึกษา</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">ความสอดคล้องกับบริบทพื้นที่ ผลลัพธ์การเรียนรู้ โครงสร้างหลักสูตร หน่วยการเรียนรู้ และกระบวนการนำหลักสูตรไปใช้ในชั้นเรียนจริง</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">3. การจัดการเรียนรู้</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">การจัดกิจกรรม Active Learning การเรียนรู้ฐานสมรรถนะ การใช้สถานการณ์จริง การใช้สื่อ เทคโนโลยี และแหล่งเรียนรู้ที่หลากหลาย</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-square-poll-vertical"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">4. การวัดและประเมินผล</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">ความสอดคล้องระหว่างผลลัพธ์ ภาระงาน เครื่องมือประเมิน เกณฑ์การประเมิน และการใช้ผลสะท้อนกลับเพื่อพัฒนาผู้เรียน</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-sitemap"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">5. การบริหารและประกันคุณภาพ</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">การกำหนดเป้าหมาย ระบบข้อมูลสารสนเทศ แผนพัฒนา กระบวนการ PLC นิเทศภายใน รายงาน SAR และการใช้ผลเพื่อพัฒนาโรงเรียน</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-nara-500 hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-nara-800 group-hover:text-white transition"><i class="fa-solid fa-hands-holding-child"></i></div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">6. โอกาส ความเสมอภาค และการดูแล</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">เด็กกลุ่มเสี่ยง เด็กหลุดระบบ ความปลอดภัย ระบบดูแลช่วยเหลือ ความแตกต่างระหว่างบุคคล ภาษา วัฒนธรรม และความต้องการพิเศษ</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: 3 ระดับ & 6 ระยะ -->
+  <section id="levels" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div class="space-y-8">
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">SUPPORT LEVELS</span>
+          <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">รูปแบบการนิเทศตามระดับความต้องการจำเป็น</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-emerald-50/50 border-2 border-emerald-200 rounded-2xl p-6 space-y-4">
+            <div class="inline-block bg-emerald-600 text-white font-heading text-xs font-bold px-3 py-1 rounded-full">ระดับ 1 : การสนับสนุนทั่วไป</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900">สถานศึกษาดำเนินงานได้ตามเกณฑ์</h3>
+            <p class="text-sm text-slate-600">ลักษณะ: มีระบบพัฒนาตนเองเข้มแข็ง ดำเนินการบรรลุมาตรฐาน</p>
+            <div class="bg-white p-4 rounded-xl border border-emerald-100 text-sm text-emerald-900 font-medium space-y-1">
+              <div class="font-bold border-b border-emerald-100 pb-1 mb-1">รูปแบบการสนับสนุน:</div>
+              <p>• นิเทศตามวงรอบปกติ (3 รอบ)</p><p>• ถอดบทเรียนแลกเปลี่ยนเรียนรู้</p><p>• ขยายผลแนวปฏิบัติที่ดี (Best Practice)</p>
+            </div>
+          </div>
+          <div class="bg-amber-50/50 border-2 border-amber-200 rounded-2xl p-6 space-y-4">
+            <div class="inline-block bg-amber-600 text-white font-heading text-xs font-bold px-3 py-1 rounded-full">ระดับ 2 : การสนับสนุนเฉพาะประเด็น</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900">มีบางประเด็นต้องได้รับการพัฒนา</h3>
+            <p class="text-sm text-slate-600">ลักษณะ: ภาพรวมดี แต่มีบางจุดที่ต้องยกระดับเร่งด่วน</p>
+            <div class="bg-white p-4 rounded-xl border border-amber-100 text-sm text-amber-900 font-medium space-y-1">
+              <div class="font-bold border-b border-amber-100 pb-1 mb-1">รูปแบบการสนับสนุน:</div>
+              <p>• นิเทศเจาะจงเฉพาะประเด็น</p><p>• จัดกระบวนการ Coaching เติมเต็ม</p><p>• ติดตามเพิ่ม 2–3 รอบระหว่างวงรอบ</p>
+            </div>
+          </div>
+          <div class="bg-rose-50/50 border-2 border-rose-200 rounded-2xl p-6 space-y-4">
+            <div class="inline-block bg-rose-600 text-white font-heading text-xs font-bold px-3 py-1 rounded-full">ระดับ 3 : การสนับสนุนอย่างเข้มข้น</div>
+            <h3 class="font-heading font-bold text-xl text-slate-900">มีประเด็นสำคัญ/เร่งด่วนหลายด้าน</h3>
+            <p class="text-sm text-slate-600">ลักษณะ: ต้องการการช่วยเหลือใกล้ชิดรอบด้าน</p>
+            <div class="bg-white p-4 rounded-xl border border-rose-100 text-sm text-rose-900 font-medium space-y-1">
+              <div class="font-bold border-b border-rose-100 pb-1 mb-1">รูปแบบการสนับสนุน:</div>
+              <p>• จัดทีมเฉพาะกิจ / โรงเรียนพี่เลี้ยง</p><p>• ร่วมวางแผนพัฒนา Development Action</p><p>• ลงพื้นที่และติดตามใกล้ชิดต่อเนื่อง</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 ระยะ -->
+      <div id="process" class="space-y-8 pt-8">
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">6-STAGE PROCESS</span>
+          <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">กระบวนการนิเทศ 6 ระยะ</h2>
+        </div>
+        <div class="space-y-4 max-w-5xl mx-auto" x-data="{ activeStep: 0 }">
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 1 ? 0 : 1" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">1</span><h3 class="font-heading font-bold text-lg text-nara-900">เตรียมการและจัดทำฐานข้อมูล (คณะอำนวยการ)</h3></div>
+              <i class="fa-solid" :class="activeStep===1?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===1" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>รวบรวมและวิเคราะห์ข้อมูลคุณภาพการศึกษาจากทุกแหล่ง เช่น ผลสัมฤทธิ์ สมรรถนะ SAR เด็กกลุ่มเสี่ยง ข้อมูลบริบทพื้นที่ เพื่อจัดทำฐานข้อมูลกลาง</p>
+              <div class="bg-nara-50 p-3 rounded-lg text-nara-900 font-semibold"><i class="fa-solid fa-cube text-gold-500 mr-2"></i>ผลผลิต: ฐานข้อมูลคุณภาพระดับจังหวัด, Baseline โรงเรียน, ประเด็นคุณภาพร่วม, รายชื่อโรงเรียนเป้าหมาย</div>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 2 ? 0 : 2" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">2</span><h3 class="font-heading font-bold text-lg text-nara-900">วิเคราะห์พื้นที่และวางแผนการนิเทศ (ทีมบูรณาการพื้นที่)</h3></div>
+              <i class="fa-solid" :class="activeStep===2?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===2" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>ศึกษารายละเอียด School Profile จัดทีมงาน ชี้แจงเป้าหมาย กำหนดตารางและผู้รับผิดชอบอย่างชัดเจนก่อนลงพื้นที่</p>
+              <div class="bg-nara-50 p-3 rounded-lg text-nara-900 font-semibold"><i class="fa-solid fa-cube text-gold-500 mr-2"></i>ผลผลิต: แผนนิเทศรายพื้นที่, School Profile, ประเด็นนิเทศรายโรงเรียน, ตารางมอบหมายงาน</div>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 3 ? 0 : 3" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">3</span><h3 class="font-heading font-bold text-lg text-nara-900">การนิเทศและวิเคราะห์สภาพจริง (ลงพื้นที่)</h3></div>
+              <i class="fa-solid" :class="activeStep===3?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===3" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>สนทนากับผู้บริหาร/ครู สังเกตการณ์สอน สัมภาษณ์นักเรียน ตรวจสอบหลักฐานเชิงประจักษ์ เพื่อสังเคราะห์จุดแข็งและจุดที่ต้องยกระดับพัฒนา</p>
+              <div class="bg-nara-50 p-3 rounded-lg text-nara-900 font-semibold"><i class="fa-solid fa-cube text-gold-500 mr-2"></i>ผลผลิต: ข้อค้นพบสภาพจริง, จุดแข็ง, สาเหตุปัญหา และการจัดลำดับความสำคัญ</div>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 4 ? 0 : 4" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">4</span><h3 class="font-heading font-bold text-lg text-nara-900">การ Coaching และการร่วมพัฒนา (ร่วมกับสถานศึกษา)</h3></div>
+              <i class="fa-solid" :class="activeStep===4?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===4" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>จัดทำแผนพัฒนาเฉพาะประเด็น (Development Action Plan) ร่วมกับโรงเรียน สนับสนุน Coaching, PLC, Lesson Study และโรงเรียนพี่เลี้ยง</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                <span class="bg-slate-100 p-2 rounded text-center text-xs">Coaching รายโรงเรียน</span>
+                <span class="bg-slate-100 p-2 rounded text-center text-xs">PLC ข้ามโรงเรียน</span>
+                <span class="bg-slate-100 p-2 rounded text-center text-xs">ผู้เชี่ยวชาญเฉพาะด้าน</span>
+                <span class="bg-slate-100 p-2 rounded text-center text-xs">สนับสนุนทรัพยากร</span>
+              </div>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 5 ? 0 : 5" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">5</span><h3 class="font-heading font-bold text-lg text-nara-900">การติดตามความก้าวหน้า (On-site & Online)</h3></div>
+              <i class="fa-solid" :class="activeStep===5?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===5" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>ติดตามพัฒนาการจากหลักฐานการปฏิบัติงานจริง (ผลงานนักเรียน, บันทึกการสอน, ร่องรอยพัฒนาการ) ทั้งแบบออนไลน์และลงพื้นที่เฉพาะกรณีจำเป็น</p>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button @click="activeStep = activeStep === 6 ? 0 : 6" class="w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <div class="flex items-center space-x-4"><span class="w-9 h-9 rounded-full bg-nara-800 text-white font-bold flex items-center justify-center text-sm">6</span><h3 class="font-heading font-bold text-lg text-nara-900">การประเมินผลและสังเคราะห์ระดับจังหวัด (เสนอ กศจ.)</h3></div>
+              <i class="fa-solid" :class="activeStep===6?'fa-chevron-up':'fa-chevron-down'"></i>
+            </button>
+            <div x-show="activeStep===6" x-collapse class="p-6 space-y-3 border-t border-slate-200 text-sm text-slate-700">
+              <p>สังเคราะห์ภาพรวมผลการนิเทศรายพื้นที่ แยกแยะปัญหาระดับโรงเรียน/พื้นที่/ระบบ เพื่อเสนอแนวทางพัฒนาและมาตรการเชิงนโยบายต่อ กศจ. นราธิวาส</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: ปฏิทิน 2569 -->
+  <section id="calendar" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">TIMELINE & SCHEDULE</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">วงรอบและปฏิทินดำเนินงาน</h2>
+        <p class="text-slate-600 text-sm sm:text-base">ปฏิทินปฏิบัติการนิเทศ ติดตาม และประเมินผล ภาคเรียนที่ 2 ปีการศึกษา 2569</p>
+      </div>
+      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm text-sm text-amber-900 flex items-start space-x-3">
+        <i class="fa-solid fa-calendar-day text-amber-600 text-xl mt-0.5"></i>
+        <div>
+          <span class="font-bold">แนวทางกำหนดวันลงพื้นที่ในแต่ละสัปดาห์:</span>
+          <p class="mt-1">• <b>วันอังคาร – วันพฤหัสบดี:</b> เป็นช่วงหลักสำหรับการลงพื้นที่นิเทศโรงเรียน<br>• <b>วันจันทร์:</b> เตรียมข้อมูล ทบทวนแผน และประชุมเตรียมความพร้อมทีมงาน<br>• <b>วันศุกร์:</b> ถอดบทเรียน สะท้อนผล บันทึกข้อมูลเข้าสู่ระบบ และจัดทำข้อเสนอแนะ</p>
+        </div>
+      </div>
+      <div class="overflow-x-auto bg-white rounded-2xl shadow border border-slate-200">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead><tr class="bg-nara-900 text-white font-heading"><th class="p-4 w-36">ช่วงเวลา</th><th class="p-4 w-48">วงรอบ / กิจกรรม</th><th class="p-4">แนวทางดำเนินงาน</th><th class="p-4 w-44">ผู้รับผิดชอบหลัก</th><th class="p-4 w-48">ผลที่คาดว่าจะได้รับ</th></tr></thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">2–6 พ.ย. 69</td><td class="p-4 font-medium">เตรียมการระดับจังหวัด</td><td class="p-4 text-slate-600">วิเคราะห์ข้อมูลจังหวัด กำหนดเป้าหมายและประเด็น ทบทวนเครื่องมือ</td><td class="p-4 text-slate-700">คณะอำนวยการ / ฝ่ายวิชาการ</td><td class="p-4 text-slate-600">กรอบเป้าหมาย & ข้อมูลพื้นฐาน</td></tr>
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">9–13 พ.ย. 69</td><td class="p-4 font-medium">เตรียมความพร้อมทีมนิเทศ</td><td class="p-4 text-slate-600">ประชุมชี้แจงแนวทาง จัดทำ School Profile วางแผนตารางลงพื้นที่</td><td class="p-4 text-slate-700">ทีมนิเทศบูรณาการ</td><td class="p-4 text-slate-600">แผนนิเทศรายพื้นที่ & ปฏิทินลงพื้นที่</td></tr>
+            <tr class="bg-blue-50/60 font-medium"><td class="p-4 font-semibold text-blue-900">16–27 พ.ย. 69</td><td class="p-4 font-bold text-blue-900"><i class="fa-solid fa-flag text-blue-600 mr-1"></i>นิเทศรอบที่ 1 Baseline</td><td class="p-4 text-slate-700">ศึกษาสภาพจริง สนทนาผู้บริหาร/ครู สังเกตการเรียนรู้ ตรวจสอบหลักฐาน</td><td class="p-4 text-slate-800">ทีมนิเทศระดับพื้นที่</td><td class="p-4 text-slate-700">ทราบจุดแข็ง ปัญหา และความต้องการจำเป็น</td></tr>
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">30 พ.ย.–11 ธ.ค. 69</td><td class="p-4 font-medium">สะท้อนผล & จัดทำแผน</td><td class="p-4 text-slate-600">วิเคราะห์ข้อค้นพบ จัดทำแผนพัฒนาเฉพาะประเด็น (Development Action)</td><td class="p-4 text-slate-700">ทีมนิเทศ / สถานศึกษา</td><td class="p-4 text-slate-600">แผนพัฒนาเฉพาะประเด็นโรงเรียน</td></tr>
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">14–25 ธ.ค. 69</td><td class="p-4 font-medium">Coaching & หนุนเสริม 1</td><td class="p-4 text-slate-600">Coaching, PLC, ผู้เชี่ยวชาญ, โรงเรียนพี่เลี้ยง เติมเต็มตามประเด็น</td><td class="p-4 text-slate-700">ทีมพื้นที่ / ผู้เชี่ยวชาญ</td><td class="p-4 text-slate-600">เกิดการพัฒนาและร่องรอยความก้าวหน้า</td></tr>
+            <tr class="bg-emerald-50/60 font-medium"><td class="p-4 font-semibold text-emerald-900">11–29 ม.ค. 70</td><td class="p-4 font-bold text-emerald-900"><i class="fa-solid fa-sync text-emerald-600 mr-1"></i>นิเทศรอบที่ 2 ส่งเสริมการพัฒนา</td><td class="p-4 text-slate-700">ติดตามความก้าวหน้า Coaching เฉพาะประเด็น หนุนเสริมต่อเนื่อง</td><td class="p-4 text-slate-800">ทีมนิเทศระดับพื้นที่</td><td class="p-4 text-slate-700">ทราบพัฒนาการและปรับแก้ไขข้ออุปสรรค</td></tr>
+            <tr class="bg-amber-50/60 font-medium"><td class="p-4 font-semibold text-amber-900">1–12 ก.พ. 70</td><td class="p-4 font-bold text-amber-900"><i class="fa-solid fa-chart-line text-amber-600 mr-1"></i>นิเทศรอบที่ 3 ประเมินผลลัพธ์</td><td class="p-4 text-slate-700">ประเมินการเปลี่ยนแปลงเปรียบเทียบ Baseline ตรวจสอบหลักฐานการพัฒนา</td><td class="p-4 text-slate-800">ทีมนิเทศระดับพื้นที่</td><td class="p-4 text-slate-700">ข้อมูลผลการเปลี่ยนแปลง & ข้อเสนอแนะ</td></tr>
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">15–26 ก.พ. 70</td><td class="p-4 font-medium">ติดตามสถานศึกษาเข้มข้น</td><td class="p-4 text-slate-600">Coaching รายกรณี สำหรับโรงเรียนที่ต้องการการสนับสนุนเฉพาะ/เข้มข้น</td><td class="p-4 text-slate-700">ทีมพี่เลี้ยง / เครือข่าย</td><td class="p-4 text-slate-600">โรงเรียนได้รับการช่วยเหลือตรงจุด</td></tr>
+            <tr class="hover:bg-slate-50"><td class="p-4 font-semibold text-nara-800">1–19 มี.ค. 70</td><td class="p-4 font-medium">สังเคราะห์ผลระดับพื้นที่</td><td class="p-4 text-slate-600">วิเคราะห์ข้อมูล 3 รอบ สรุปผลสัมฤทธิ์ คุณภาพโรงเรียน ปัญหา และนวัตกรรม</td><td class="p-4 text-slate-700">หัวหน้าทีม / เลขานุการทีม</td><td class="p-4 text-slate-600">รายงานสรุปผลนิเทศระดับพื้นที่</td></tr>
+            <tr class="bg-nara-100 font-bold"><td class="p-4 text-nara-900">22–31 มี.ค. 70</td><td class="p-4 text-nara-900"><i class="fa-solid fa-award text-gold-600 mr-1"></i>สังเคราะห์ระดับจังหวัด เสนอ กศจ.</td><td class="p-4 text-nara-900">จัดทำภาพรวมจังหวัด ข้อค้นพบ นวัตกรรม และข้อเสนอเชิงนโยบายยื่น กศจ.</td><td class="p-4 text-nara-900">คณะอำนวยการ / ฝ่ายวิชาการ</td><td class="p-4 text-nara-900">รายงานระดับจังหวัด & ข้อเสนอนโยบาย กศจ.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: ผังกระบวนการ -->
+  <section id="diagrams" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-nara-600 font-heading font-semibold text-sm uppercase tracking-wider">SYSTEM DIAGRAMS</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-nara-900">ผังกระบวนการและระบบการเชื่อมโยง</h2>
+        <p class="text-slate-600 text-sm sm:text-base">แสดงแผนผังการขับเคลื่อนงานนิเทศยกระดับคุณภาพการศึกษาจังหวัดนราธิวาส</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+          <h3 class="font-heading font-bold text-xl text-nara-900 flex items-center"><i class="fa-solid fa-sitemap text-nara-600 mr-2"></i>1. ระบบนิเทศ ติดตาม และประเมินผล (9 ขั้นตอน)</h3>
+          <p class="text-xs text-slate-500">ผังแสดงขั้นตอนการดำเนินงานตั้งแต่ระดับนโยบายสู่สถานศึกษาและย้อนกลับเข้าสู่ กศจ.</p>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center">
+            <img src="https://lh3.googleusercontent.com/d/1XlR-9o0mE2Z7_kY9kO_Z1z6A5x-N7P8M" alt="ผังระบบนิเทศ ติดตาม และประเมินผล 9 ขั้นตอน" class="max-h-[600px] object-contain rounded-lg shadow-sm hover:scale-105 transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1e3a8a/ffffff?text=Diagram+1:+9-Steps+System+Flow';">
+          </div>
+        </div>
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+          <h3 class="font-heading font-bold text-xl text-nara-900 flex items-center"><i class="fa-solid fa-link text-nara-600 mr-2"></i>2. กลไกการเชื่อมโยงการทำงานระหว่างสองคณะ (8 ขั้นตอน)</h3>
+          <p class="text-xs text-slate-500">การประสานพลังระหว่างคณะกรรมการศึกษาธิการจังหวัด (กศจ.) และคณะอำนวยการนิเทศ</p>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center">
+            <img src="https://lh3.googleusercontent.com/d/1_aB_8_X_X9k2mZ9k1_X_Y2Z3A4B5C6D7" alt="ผังกลไกการเชื่อมโยงการทำงาน 8 ขั้นตอน" class="max-h-[600px] object-contain rounded-lg shadow-sm hover:scale-105 transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/600x800/0369a1/ffffff?text=Diagram+2:+Mechanism+Linkage+Flow';">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-center">
+      <div class="flex justify-center items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-gold-500 text-slate-950 font-bold flex items-center justify-center text-xl"><i class="fa-solid fa-graduation-cap"></i></div>
+        <span class="font-heading font-bold text-white text-lg">สำนักงานศึกษาธิการจังหวัดนราธิวาส</span>
+      </div>
+      <p class="text-xs text-slate-500 max-w-2xl mx-auto leading-relaxed">ระบบนิเทศ ติดตาม และประเมินผลเพื่อยกระดับคุณภาพการศึกษาจังหวัดนราธิวาส</p>
+      <div class="text-xs text-slate-600 border-t border-slate-900 pt-6">&copy; 2026 Educational Supervision System of Narathiwat Province.</div>
+    </div>
+  </footer>
+
+  <script>
+    function appData() { return {}; }
+  </script>
+</body>
+</html>
