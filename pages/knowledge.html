@@ -23,6 +23,10 @@
     body { font-family:'Sarabun',sans-serif; background:#f8fafc; color:#334155; }
     h1,h2,h3,h4,h5,h6,.font-heading { font-family:'Prompt',sans-serif; }
     @media print { .no-print{display:none!important;} body{background:white;color:black;} }
+    .lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;cursor:zoom-out;opacity:0;pointer-events:none;transition:opacity .25s}
+    .lightbox.active{opacity:1;pointer-events:auto}
+    .lightbox img{max-width:92vw;max-height:92vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:scale(.9);transition:transform .25s}
+    .lightbox.active img{transform:scale(1)}
   </style>
 </head>
 <body x-data="appData()" class="antialiased min-h-screen flex flex-col justify-between">
@@ -452,8 +456,20 @@
     </div>
   </footer>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="imgLightbox" onclick="this.classList.remove('active')">
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
   <script>
     function appData() { return {}; }
+    document.querySelectorAll('#diagrams img').forEach(function(img){
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function(){
+        document.getElementById('lightboxImg').src = this.src;
+        document.getElementById('imgLightbox').classList.add('active');
+      });
+    });
   </script>
 </body>
 </html>
